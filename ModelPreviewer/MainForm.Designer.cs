@@ -29,7 +29,6 @@ namespace ModelPreviewer
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.renderer = new OpenTK.GLControl();
 			this.gbCamera = new System.Windows.Forms.GroupBox();
 			this.numDistance = new System.Windows.Forms.NumericUpDown();
@@ -275,7 +274,6 @@ namespace ModelPreviewer
 			// btnImport
 			// 
 			this.btnImport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.btnImport.Image = ((System.Drawing.Image)(resources.GetObject("btnImport.Image")));
 			this.btnImport.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnImport.Name = "btnImport";
 			this.btnImport.Size = new System.Drawing.Size(43, 22);
@@ -285,7 +283,6 @@ namespace ModelPreviewer
 			// btnExport
 			// 
 			this.btnExport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.btnExport.Image = ((System.Drawing.Image)(resources.GetObject("btnExport.Image")));
 			this.btnExport.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnExport.Name = "btnExport";
 			this.btnExport.Size = new System.Drawing.Size(43, 22);
@@ -295,7 +292,6 @@ namespace ModelPreviewer
 			// btnExportCode
 			// 
 			this.btnExportCode.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.btnExportCode.Image = ((System.Drawing.Image)(resources.GetObject("btnExportCode.Image")));
 			this.btnExportCode.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnExportCode.Name = "btnExportCode";
 			this.btnExportCode.Size = new System.Drawing.Size(69, 22);
@@ -310,7 +306,6 @@ namespace ModelPreviewer
 			// btnModelTex
 			// 
 			this.btnModelTex.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.btnModelTex.Image = ((System.Drawing.Image)(resources.GetObject("btnModelTex.Image")));
 			this.btnModelTex.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnModelTex.Name = "btnModelTex";
 			this.btnModelTex.Size = new System.Drawing.Size(78, 22);
@@ -320,7 +315,6 @@ namespace ModelPreviewer
 			// btnGridTex
 			// 
 			this.btnGridTex.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.btnGridTex.Image = ((System.Drawing.Image)(resources.GetObject("btnGridTex.Image")));
 			this.btnGridTex.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnGridTex.Name = "btnGridTex";
 			this.btnGridTex.Size = new System.Drawing.Size(69, 22);
@@ -330,7 +324,6 @@ namespace ModelPreviewer
 			// btnShowGrid
 			// 
 			this.btnShowGrid.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.btnShowGrid.Image = ((System.Drawing.Image)(resources.GetObject("btnShowGrid.Image")));
 			this.btnShowGrid.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnShowGrid.Name = "btnShowGrid";
 			this.btnShowGrid.Size = new System.Drawing.Size(79, 22);
