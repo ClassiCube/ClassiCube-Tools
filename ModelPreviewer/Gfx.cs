@@ -10,10 +10,11 @@ using GlPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 namespace ModelPreviewer {
 	public static class Gfx {
 		
-		public static int CreateTexture(string path) {
+		public static int CreateTexture(string path, out bool sameDims) {
 			using (FileStream fs = File.OpenRead(path))
 				using (Bitmap bmp = ReadBmp(fs))
 			{
+				sameDims = bmp.Width == bmp.Height;
 				Rectangle rec = new Rectangle(0, 0, bmp.Width, bmp.Height);
 				BitmapData data = bmp.LockBits(rec, ImageLockMode.ReadOnly, bmp.PixelFormat);
 				int texId = CreateTexture(data.Width, data.Height, data.Scan0);

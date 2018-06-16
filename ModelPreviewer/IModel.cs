@@ -140,7 +140,7 @@ namespace ModelPreviewer {
 			vertices[index++] = new ModelVertex( x2, y1, z, texX + texWidth, texY + texHeight );
 		}
 		
-		protected bool _64x64 = false;
+		public static bool _64x64 = false;
 		protected void DrawPart( ModelPart part ) {
 			GL.Begin( BeginMode.Quads );
 			for( int i = 0; i < part.Count; i++ ) {

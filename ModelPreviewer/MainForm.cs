@@ -27,17 +27,22 @@ namespace ModelPreviewer {
 			renderer.Invalidate();
 		}
 		
+		void Import(Stream src) {
+			parts = ModelFormat.Import(src);
+			lbModels.Items.Clear();
+			
+			foreach (RawPart part in parts) {
+				lbModels.Items.Add(part.Name);
+			}
+			
+			lbModels.SelectedIndex = 0;
+			RebuildModel();
+		}
+		
 		void RendererLoad(object sender, EventArgs e) {
 			try {
 				byte[] data = Encoding.ASCII.GetBytes(ModelFormat.HumanoidRaw);
-				MemoryStream ms = new MemoryStream(data);
-
-				parts = ModelFormat.Import(ms);
-				foreach (RawPart part in parts) {
-					lbModels.Items.Add(part.Name);
-				}
-				lbModels.SelectedIndex = 0;
-				RebuildModel();
+				Import(new MemoryStream(data));
 				loaded = true;
 				
 				Color blue = Color.FromArgb(0, 0, 0x70);
@@ -221,9 +226,8 @@ namespace ModelPreviewer {
 			if (path == null) return;
 
 			using (FileStream fs = File.OpenRead(path)) {
-				parts = ModelFormat.Import(fs);
+				Import(fs);
 			}
-			RebuildModel();
 		}
 		
 		void BtnExportClick(object sender, EventArgs e) {
@@ -244,7 +248,7 @@ namespace ModelPreviewer {
 			if (path == null) return;
 
 			Gfx.DeleteTexture(ref texId);
-			texId = Gfx.CreateTexture(path);
+			texId = Gfx.CreateTexture(path, out IModel._64x64);
 			p.Model.texId = texId;
 		}
 		
@@ -253,7 +257,8 @@ namespace ModelPreviewer {
 			if (path == null) return;
 
 			Gfx.DeleteTexture(ref gridTexId);
-			gridTexId = Gfx.CreateTexture(path);
+			bool ignored;
+			gridTexId = Gfx.CreateTexture(path, out ignored);
 			throw new NotImplementedException();
 		}
 		
