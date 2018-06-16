@@ -64,7 +64,7 @@ namespace ModelPreviewer {
 		}
 		
 		public unsafe static void DeleteTexture(ref int texId) {
-			if(texId <= 0) return;
+			if (texId <= 0) return;
 			int id = texId;
 			GL.DeleteTextures(1, &id);
 			texId = -1;

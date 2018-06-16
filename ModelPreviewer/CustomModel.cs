@@ -46,9 +46,59 @@ namespace ModelPreviewer {
 			                       .SetTexOrigin( 40, 16 ) );
 			Set.RightArm = BuildBox( MakeBoxBounds( 4, 12, -2, 8, 24, 2 )
 			                        .SetTexOrigin( 40, 16 ) );
-			                        */
+			 */
 		}
-
+		
+		static float Animate(Player p, string anim) {
+			if (anim == null || anim.Length == 0) return 0;	
+			anim = anim.Replace(" ", "").ToLower();
+			
+			string expr = GetExpr(anim, 0);
+			float angle = AnimateExpr(p, expr);
+			
+			for (int i = expr.Length; i < anim.Length;) {
+				char op = anim[i]; i++;
+				expr = GetExpr(anim, i); i += expr.Length;
+				
+				if (op == '-') angle -= AnimateExpr(p, expr);
+				if (op == '+') angle += AnimateExpr(p, expr);
+				if (op == '*') angle *= AnimateExpr(p, expr);
+				if (op == '/') angle /= AnimateExpr(p, expr);
+			}
+			
+			return angle;
+		}
+		
+		static string GetExpr(string value, int i) {
+			int j = i;
+			
+			for (; j < value.Length; j++) {
+				char c = value[j];
+				if (c == '-' || c == '+' || c == '*' || c == '/') break;
+			}
+			return value.Substring(i, j - i);
+		}
+		
+		static float AnimateExpr(Player p, string anim) {
+			if (anim == "") return 0;
+			
+			if (anim == "yaw")   return p.YawRadians;
+			if (anim == "pitch") return p.PitchRadians;
+			
+			if (anim == "leftarmx") return p.leftArmXRot;
+			if (anim == "leftarmz") return p.leftArmZRot;
+			if (anim == "leftlegx") return p.leftLegXRot;
+			
+			if (anim == "rightarmx") return p.rightArmXRot;
+			if (anim == "rightarmz") return p.rightArmZRot;
+			if (anim == "rightlegx") return p.rightLegXRot;
+			
+			int angle;
+			if (int.TryParse(anim, out angle)) return angle * Utils.Deg2Rad;
+			
+			return 0;
+		}
+		
 		protected override void DrawPlayerModel(Player p) {
 			Gfx.Texturing = true;
 			Gfx.BindTexture( texId );
@@ -58,7 +108,9 @@ namespace ModelPreviewer {
 				Gfx.AlphaTest = raw.AlphaTesting;
 				
 				if (raw.Wireframe) GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
-				DrawRotate(raw.RotX / 16f, raw.RotY / 16f, raw.RotZ / 16f, 0, 0, 0, parts[i]);
+				DrawRotate(raw.RotX / 16f, raw.RotY / 16f, raw.RotZ / 16f,
+				           Animate(p, raw.XAnim), Animate(p, raw.YAnim), Animate(p, raw.ZAnim),
+				           parts[i]);
 				if (raw.Wireframe) GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
 			}
 			
@@ -72,7 +124,7 @@ namespace ModelPreviewer {
 			
 			Gfx.AlphaTest = true;
 			DrawRotate( 0, 24f/16f, 0, -p.PitchRadians, 0, 0, model.Hat );
-			*/
+			 */
 		}
 	}
 }

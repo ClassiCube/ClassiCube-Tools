@@ -5,7 +5,6 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace ModelPreviewer {
@@ -343,6 +342,12 @@ namespace ModelPreviewer {
 			numRotX.Value = p.RotX; numRotY.Value = p.RotY; numRotZ.Value = p.RotZ;
 			
 			numTexX.Value = p.TexX; numTexY.Value = p.TexY;
+			
+			txtName.Text = p.Name;
+			txtXAnim.Text = p.XAnim;
+			txtYAnim.Text = p.YAnim;
+			txtZAnim.Text = p.ZAnim;
+			
 			cbWireframe.Checked = p.Wireframe;
 			cbAlphaTesting.Checked = p.AlphaTesting;
 			cbRotate.Checked = p.Rotated;
@@ -364,6 +369,33 @@ namespace ModelPreviewer {
 			
 			parts.RemoveAt(i);
 			lbModels.Items.RemoveAt(i);
+			RebuildModel();
+		}
+
+		void TxtNameTextChanged(object sender, EventArgs e) {
+			string name = txtName.Text;
+			if (name == "") name = "----";
+			
+			if (cur != null) cur.Name = name;
+			RebuildModel();
+			
+			int i = lbModels.SelectedIndex;
+			if (i == -1) return;
+			lbModels.Items[i] = name;
+		}
+		
+		void TxtXAnimTextChanged(object sender, EventArgs e) {
+			if (cur != null) cur.XAnim = txtXAnim.Text;
+			RebuildModel();
+		}
+		
+		void TxtYAnimTextChanged(object sender, EventArgs e) {
+			if (cur != null) cur.YAnim = txtYAnim.Text;
+			RebuildModel();
+		}
+		
+		void TxtZAnimTextChanged(object sender, EventArgs e) {
+			if (cur != null) cur.ZAnim = txtZAnim.Text;
 			RebuildModel();
 		}
 	}

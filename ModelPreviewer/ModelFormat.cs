@@ -5,7 +5,7 @@ using System.IO;
 namespace ModelPreviewer {
 	
 	public sealed class RawPart {
-		public string Name;
+		public string Name, XAnim, YAnim, ZAnim;
 		public int X1, Y1, Z1, X2, Y2, Z2;
 		public int RotX, RotY, RotZ, TexX, TexY;
 		public bool AlphaTesting, Rotated, Wireframe;
@@ -39,6 +39,12 @@ namespace ModelPreviewer {
 				string type = bits[1].ToLower(), value = bits[2];
 				if (type == "name") {
 					part.Name = value;
+				} else if (type == "xanim") {
+					part.XAnim = value;
+				} else if (type == "yanim") {
+					part.YAnim = value;
+				} else if (type == "zanim") {
+					part.ZAnim = value;
 				} else if (type == "p1") {
 					int[] xyz = SplitXYZ(value);
 					part.X1 = xyz[0]; part.Y1 = xyz[1]; part.Z1 = xyz[2];
@@ -88,6 +94,7 @@ namespace ModelPreviewer {
 0 p2 4 32 4
 0 tex 0 0
 0 rot 0 24 0
+0 xanim -Pitch
 
 1 name Torso
 1 p1 -4 12 -2
@@ -99,24 +106,30 @@ namespace ModelPreviewer {
 2 p2 -4 12 2
 2 tex 0 16
 2 rot 0 12 0
+2 xanim LeftLegX
 
 3 name RightLeg
 3 p1 0 0 -2
 3 p2 4 12 2
 3 tex 0 16
 3 rot 0 12 0
+3 xanim RightLegX
 
 4 name LeftArm
 4 p1 -4 12 -2
 4 p2 -8 24 2
 4 tex 40 16
 4 rot -6 22 0
+4 xanim LeftArmX
+4 zanim LeftArmZ
 
-5 name RightAtm
+5 name RightArm
 5 p1 4 12 -2
 5 p2 8 24 2
 5 tex 40 16
 5 rot 6 22 0
+5 xanim RightArmX
+5 zanim RightArmZ
 		";
 	}
 }

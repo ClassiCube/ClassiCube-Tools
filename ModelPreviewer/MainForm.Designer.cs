@@ -55,6 +55,14 @@ namespace ModelPreviewer
 			this.lblState = new System.Windows.Forms.Label();
 			this.cbState = new System.Windows.Forms.ComboBox();
 			this.gbPart = new System.Windows.Forms.GroupBox();
+			this.txtZAnim = new System.Windows.Forms.TextBox();
+			this.lblZAnim = new System.Windows.Forms.Label();
+			this.txtYAnim = new System.Windows.Forms.TextBox();
+			this.lblYAnim = new System.Windows.Forms.Label();
+			this.txtXAnim = new System.Windows.Forms.TextBox();
+			this.lblXAnim = new System.Windows.Forms.Label();
+			this.txtName = new System.Windows.Forms.TextBox();
+			this.lblName = new System.Windows.Forms.Label();
 			this.cbWireframe = new System.Windows.Forms.CheckBox();
 			this.cbAlphaTesting = new System.Windows.Forms.CheckBox();
 			this.cbRotate = new System.Windows.Forms.CheckBox();
@@ -338,9 +346,9 @@ namespace ModelPreviewer
 			this.gbModel.Controls.Add(this.label1);
 			this.gbModel.Controls.Add(this.lblState);
 			this.gbModel.Controls.Add(this.cbState);
-			this.gbModel.Location = new System.Drawing.Point(4, 137);
+			this.gbModel.Location = new System.Drawing.Point(856, 28);
 			this.gbModel.Name = "gbModel";
-			this.gbModel.Size = new System.Drawing.Size(200, 100);
+			this.gbModel.Size = new System.Drawing.Size(120, 103);
 			this.gbModel.TabIndex = 12;
 			this.gbModel.TabStop = false;
 			this.gbModel.Text = "Model settings";
@@ -359,7 +367,7 @@ namespace ModelPreviewer
 									0,
 									-2147483648});
 			this.numPitch.Name = "numPitch";
-			this.numPitch.Size = new System.Drawing.Size(57, 20);
+			this.numPitch.Size = new System.Drawing.Size(68, 20);
 			this.numPitch.TabIndex = 5;
 			this.numPitch.ValueChanged += new System.EventHandler(this.NumPitchValueChanged);
 			// 
@@ -386,7 +394,7 @@ namespace ModelPreviewer
 									0,
 									-2147483648});
 			this.numYaw.Name = "numYaw";
-			this.numYaw.Size = new System.Drawing.Size(57, 20);
+			this.numYaw.Size = new System.Drawing.Size(68, 20);
 			this.numYaw.TabIndex = 3;
 			this.numYaw.ValueChanged += new System.EventHandler(this.NumYawValueChanged);
 			// 
@@ -420,12 +428,20 @@ namespace ModelPreviewer
 									"RunNod"});
 			this.cbState.Location = new System.Drawing.Point(46, 19);
 			this.cbState.Name = "cbState";
-			this.cbState.Size = new System.Drawing.Size(147, 21);
+			this.cbState.Size = new System.Drawing.Size(68, 21);
 			this.cbState.TabIndex = 0;
 			this.cbState.SelectedIndexChanged += new System.EventHandler(this.CbStateSelectedIndexChanged);
 			// 
 			// gbPart
 			// 
+			this.gbPart.Controls.Add(this.txtZAnim);
+			this.gbPart.Controls.Add(this.lblZAnim);
+			this.gbPart.Controls.Add(this.txtYAnim);
+			this.gbPart.Controls.Add(this.lblYAnim);
+			this.gbPart.Controls.Add(this.txtXAnim);
+			this.gbPart.Controls.Add(this.lblXAnim);
+			this.gbPart.Controls.Add(this.txtName);
+			this.gbPart.Controls.Add(this.lblName);
 			this.gbPart.Controls.Add(this.cbWireframe);
 			this.gbPart.Controls.Add(this.cbAlphaTesting);
 			this.gbPart.Controls.Add(this.cbRotate);
@@ -444,16 +460,88 @@ namespace ModelPreviewer
 			this.gbPart.Controls.Add(this.numP1_Y);
 			this.gbPart.Controls.Add(this.numP1_X);
 			this.gbPart.Controls.Add(this.lblP1);
-			this.gbPart.Location = new System.Drawing.Point(4, 243);
+			this.gbPart.Location = new System.Drawing.Point(4, 137);
 			this.gbPart.Name = "gbPart";
-			this.gbPart.Size = new System.Drawing.Size(200, 238);
+			this.gbPart.Size = new System.Drawing.Size(200, 347);
 			this.gbPart.TabIndex = 12;
 			this.gbPart.TabStop = false;
 			this.gbPart.Text = "Model part data";
 			// 
+			// txtZAnim
+			// 
+			this.txtZAnim.Location = new System.Drawing.Point(61, 189);
+			this.txtZAnim.MaxLength = 32;
+			this.txtZAnim.Name = "txtZAnim";
+			this.txtZAnim.Size = new System.Drawing.Size(100, 20);
+			this.txtZAnim.TabIndex = 38;
+			this.txtZAnim.TextChanged += new System.EventHandler(this.TxtZAnimTextChanged);
+			// 
+			// lblZAnim
+			// 
+			this.lblZAnim.AutoSize = true;
+			this.lblZAnim.Location = new System.Drawing.Point(8, 192);
+			this.lblZAnim.Name = "lblZAnim";
+			this.lblZAnim.Size = new System.Drawing.Size(39, 13);
+			this.lblZAnim.TabIndex = 37;
+			this.lblZAnim.Text = "Z anim";
+			// 
+			// txtYAnim
+			// 
+			this.txtYAnim.Location = new System.Drawing.Point(61, 163);
+			this.txtYAnim.MaxLength = 32;
+			this.txtYAnim.Name = "txtYAnim";
+			this.txtYAnim.Size = new System.Drawing.Size(100, 20);
+			this.txtYAnim.TabIndex = 36;
+			this.txtYAnim.TextChanged += new System.EventHandler(this.TxtYAnimTextChanged);
+			// 
+			// lblYAnim
+			// 
+			this.lblYAnim.AutoSize = true;
+			this.lblYAnim.Location = new System.Drawing.Point(8, 166);
+			this.lblYAnim.Name = "lblYAnim";
+			this.lblYAnim.Size = new System.Drawing.Size(39, 13);
+			this.lblYAnim.TabIndex = 35;
+			this.lblYAnim.Text = "Y anim";
+			// 
+			// txtXAnim
+			// 
+			this.txtXAnim.Location = new System.Drawing.Point(61, 137);
+			this.txtXAnim.MaxLength = 32;
+			this.txtXAnim.Name = "txtXAnim";
+			this.txtXAnim.Size = new System.Drawing.Size(100, 20);
+			this.txtXAnim.TabIndex = 34;
+			this.txtXAnim.TextChanged += new System.EventHandler(this.TxtXAnimTextChanged);
+			// 
+			// lblXAnim
+			// 
+			this.lblXAnim.AutoSize = true;
+			this.lblXAnim.Location = new System.Drawing.Point(8, 140);
+			this.lblXAnim.Name = "lblXAnim";
+			this.lblXAnim.Size = new System.Drawing.Size(39, 13);
+			this.lblXAnim.TabIndex = 33;
+			this.lblXAnim.Text = "X anim";
+			// 
+			// txtName
+			// 
+			this.txtName.Location = new System.Drawing.Point(61, 231);
+			this.txtName.MaxLength = 32;
+			this.txtName.Name = "txtName";
+			this.txtName.Size = new System.Drawing.Size(100, 20);
+			this.txtName.TabIndex = 32;
+			this.txtName.TextChanged += new System.EventHandler(this.TxtNameTextChanged);
+			// 
+			// lblName
+			// 
+			this.lblName.AutoSize = true;
+			this.lblName.Location = new System.Drawing.Point(8, 234);
+			this.lblName.Name = "lblName";
+			this.lblName.Size = new System.Drawing.Size(35, 13);
+			this.lblName.TabIndex = 31;
+			this.lblName.Text = "Name";
+			// 
 			// cbWireframe
 			// 
-			this.cbWireframe.Location = new System.Drawing.Point(8, 198);
+			this.cbWireframe.Location = new System.Drawing.Point(8, 299);
 			this.cbWireframe.Name = "cbWireframe";
 			this.cbWireframe.Size = new System.Drawing.Size(175, 24);
 			this.cbWireframe.TabIndex = 30;
@@ -463,7 +551,7 @@ namespace ModelPreviewer
 			// 
 			// cbAlphaTesting
 			// 
-			this.cbAlphaTesting.Location = new System.Drawing.Point(8, 168);
+			this.cbAlphaTesting.Location = new System.Drawing.Point(8, 277);
 			this.cbAlphaTesting.Name = "cbAlphaTesting";
 			this.cbAlphaTesting.Size = new System.Drawing.Size(175, 24);
 			this.cbAlphaTesting.TabIndex = 29;
@@ -473,7 +561,7 @@ namespace ModelPreviewer
 			// 
 			// cbRotate
 			// 
-			this.cbRotate.Location = new System.Drawing.Point(8, 138);
+			this.cbRotate.Location = new System.Drawing.Point(8, 254);
 			this.cbRotate.Name = "cbRotate";
 			this.cbRotate.Size = new System.Drawing.Size(173, 24);
 			this.cbRotate.TabIndex = 28;
@@ -483,7 +571,7 @@ namespace ModelPreviewer
 			// 
 			// numTexY
 			// 
-			this.numTexY.Location = new System.Drawing.Point(107, 112);
+			this.numTexY.Location = new System.Drawing.Point(107, 70);
 			this.numTexY.Maximum = new decimal(new int[] {
 									3600,
 									0,
@@ -501,7 +589,7 @@ namespace ModelPreviewer
 			// 
 			// numTexX
 			// 
-			this.numTexX.Location = new System.Drawing.Point(63, 112);
+			this.numTexX.Location = new System.Drawing.Point(61, 70);
 			this.numTexX.Maximum = new decimal(new int[] {
 									3600,
 									0,
@@ -520,7 +608,7 @@ namespace ModelPreviewer
 			// lblTex
 			// 
 			this.lblTex.AutoSize = true;
-			this.lblTex.Location = new System.Drawing.Point(8, 114);
+			this.lblTex.Location = new System.Drawing.Point(8, 72);
 			this.lblTex.Name = "lblTex";
 			this.lblTex.Size = new System.Drawing.Size(53, 13);
 			this.lblTex.TabIndex = 25;
@@ -529,7 +617,7 @@ namespace ModelPreviewer
 			// lblRot
 			// 
 			this.lblRot.AutoSize = true;
-			this.lblRot.Location = new System.Drawing.Point(8, 88);
+			this.lblRot.Location = new System.Drawing.Point(8, 113);
 			this.lblRot.Name = "lblRot";
 			this.lblRot.Size = new System.Drawing.Size(52, 13);
 			this.lblRot.TabIndex = 24;
@@ -537,7 +625,7 @@ namespace ModelPreviewer
 			// 
 			// numRotZ
 			// 
-			this.numRotZ.Location = new System.Drawing.Point(153, 86);
+			this.numRotZ.Location = new System.Drawing.Point(153, 111);
 			this.numRotZ.Maximum = new decimal(new int[] {
 									3600,
 									0,
@@ -555,7 +643,7 @@ namespace ModelPreviewer
 			// 
 			// numRotY
 			// 
-			this.numRotY.Location = new System.Drawing.Point(107, 86);
+			this.numRotY.Location = new System.Drawing.Point(107, 111);
 			this.numRotY.Maximum = new decimal(new int[] {
 									3600,
 									0,
@@ -573,7 +661,7 @@ namespace ModelPreviewer
 			// 
 			// numRotX
 			// 
-			this.numRotX.Location = new System.Drawing.Point(62, 86);
+			this.numRotX.Location = new System.Drawing.Point(62, 111);
 			this.numRotX.Maximum = new decimal(new int[] {
 									3600,
 									0,
@@ -718,15 +806,15 @@ namespace ModelPreviewer
 			// lbModels
 			// 
 			this.lbModels.FormattingEnabled = true;
-			this.lbModels.Location = new System.Drawing.Point(856, 31);
+			this.lbModels.Location = new System.Drawing.Point(856, 134);
 			this.lbModels.Name = "lbModels";
-			this.lbModels.Size = new System.Drawing.Size(120, 420);
+			this.lbModels.Size = new System.Drawing.Size(120, 329);
 			this.lbModels.TabIndex = 13;
 			this.lbModels.SelectedIndexChanged += new System.EventHandler(this.LbModelsSelectedIndexChanged);
 			// 
 			// btnAdd
 			// 
-			this.btnAdd.Location = new System.Drawing.Point(856, 461);
+			this.btnAdd.Location = new System.Drawing.Point(856, 469);
 			this.btnAdd.Name = "btnAdd";
 			this.btnAdd.Size = new System.Drawing.Size(53, 23);
 			this.btnAdd.TabIndex = 14;
@@ -736,7 +824,7 @@ namespace ModelPreviewer
 			// 
 			// btnDel
 			// 
-			this.btnDel.Location = new System.Drawing.Point(923, 461);
+			this.btnDel.Location = new System.Drawing.Point(923, 469);
 			this.btnDel.Name = "btnDel";
 			this.btnDel.Size = new System.Drawing.Size(53, 23);
 			this.btnDel.TabIndex = 15;
@@ -789,6 +877,14 @@ namespace ModelPreviewer
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.Label lblZAnim;
+		private System.Windows.Forms.TextBox txtZAnim;
+		private System.Windows.Forms.Label lblXAnim;
+		private System.Windows.Forms.TextBox txtXAnim;
+		private System.Windows.Forms.Label lblYAnim;
+		private System.Windows.Forms.TextBox txtYAnim;
+		private System.Windows.Forms.Label lblName;
+		private System.Windows.Forms.TextBox txtName;
 		private System.Windows.Forms.Button btnDel;
 		private System.Windows.Forms.Button btnAdd;
 		private System.Windows.Forms.CheckBox cbRotate;
