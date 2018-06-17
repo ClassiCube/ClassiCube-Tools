@@ -12,7 +12,7 @@ namespace ModelPreviewer {
 	public partial class MainForm : Form {
 		
 		bool loaded = false;
-		int texId, gridTexId;
+		int texId, floorTexId;
 		public MainForm() {
 			InitializeComponent();
 			p = new Player();
@@ -105,16 +105,60 @@ namespace ModelPreviewer {
 			}
 		}
 		
+		
+		void PaintFloor() {
+			Gfx.Texturing = true;
+			Gfx.BindTexture(floorTexId);
+			GL.Begin(BeginMode.Quads);			
+			GL.Color3(0.7f, 0.7f, 0.7f);
+			
+			GL.TexCoord2(0f, 0f); GL.Vertex3(-2f, -0.1f, -2f);		
+			GL.TexCoord2(2f, 0f); GL.Vertex3(2f, -0.1f, -2f);
+			GL.TexCoord2(2f, 2f); GL.Vertex3(2f, -0.1f, 2f);
+			GL.TexCoord2(0f, 2f); GL.Vertex3(-2f, -0.1f, 2f);
+			
+			GL.Color3(1f, 1f, 1f);		
+			GL.End();
+			Gfx.Texturing = false;
+		}
+		
+		bool showXGrid = true, showYGrid = true, showZGrid = true;
+		void PaintGridLines() {
+			GL.Begin(BeginMode.Lines);
+			GL.Color3(0.0f, 0.0f, 0.0f);
+			
+			const int extent = 32;
+			float beg = -extent / 16.0f, end = extent / 16.0f;
+			
+			for (int i = -extent; i <= extent; i++) {
+				float cur = i / 16.0f;
+				
+				// Y plane gridlines
+				if (showYGrid) {
+					GL.Vertex3(cur, 0, beg); GL.Vertex3(cur, 0, end);
+					GL.Vertex3(beg, 0, cur); GL.Vertex3(end, 0, cur);
+				}
+
+				// X plane gridlines
+				if (showXGrid) {
+					GL.Vertex3(cur, 0, 0); GL.Vertex3(cur, end, 0);
+					if (cur >= 0) { GL.Vertex3(beg, cur, 0); GL.Vertex3(end, cur, 0); }
+				}
+				
+				// Z plane gridlines
+				if (showZGrid) {
+					if (cur >= 0) { GL.Vertex3(0, cur, beg); GL.Vertex3(0, cur, end); }
+					GL.Vertex3(0, 0, cur); GL.Vertex3(0, end, cur);
+				}
+			}
+			
+			GL.End();
+		}
+		
 		void PaintBackground() {
 			Gfx.Texturing = false;
-			GL.Begin(BeginMode.Quads);
-			GL.Color3(0.2f, 0.2f, 0.2f);
-			GL.Vertex3(-2f, -0.1f, -2f);
-			GL.Vertex3(2f, -0.1f, -2f);
-			GL.Vertex3(2f, -0.1f, 2f);
-			GL.Vertex3(-2f, -0.1f, 2f);
-			GL.Color3(1f, 1f, 1f);
-			GL.End();
+			PaintFloor();
+			PaintGridLines();
 			
 			GL.Begin(BeginMode.Lines);
 			Line(1, 0, 0);
@@ -256,14 +300,24 @@ namespace ModelPreviewer {
 			string path = DoOpenFileDialog("Accepted File Types (*.png)|*.png|Images (*.png)|*.png");
 			if (path == null) return;
 
-			Gfx.DeleteTexture(ref gridTexId);
+			Gfx.DeleteTexture(ref floorTexId);
 			bool ignored;
-			gridTexId = Gfx.CreateTexture(path, out ignored);
-			throw new NotImplementedException();
+			floorTexId = Gfx.CreateTexture(path, out ignored);
 		}
 		
-		void BtnShowGridClick(object sender, EventArgs e) {
-			throw new NotImplementedException();
+		void BtnXGridClick(object sender, EventArgs e) {
+			showXGrid = !showXGrid;
+			btnXGrid.CheckState = showXGrid ? CheckState.Checked : CheckState.Unchecked;
+		}
+		
+		void BtnYGridClick(object sender, System.EventArgs e) {
+			showYGrid = !showYGrid;
+			btnYGrid.CheckState = showYGrid ? CheckState.Checked : CheckState.Unchecked;
+		}
+		
+		void BtnZGridClick(object sender, System.EventArgs e) {
+			showZGrid = !showZGrid;
+			btnZGrid.CheckState = showZGrid ? CheckState.Checked : CheckState.Unchecked;
 		}
 		
 		void NumP1_XValueChanged(object sender, EventArgs e) {

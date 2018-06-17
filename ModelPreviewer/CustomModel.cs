@@ -93,8 +93,13 @@ namespace ModelPreviewer {
 			if (anim == "rightarmz") return p.rightArmZRot;
 			if (anim == "rightlegx") return p.rightLegXRot;
 			
+			// e.g. pitch + 90
 			int angle;
 			if (int.TryParse(anim, out angle)) return angle * Utils.Deg2Rad;
+			
+			// e.g pitch * 0.5
+			float value;
+			if (float.TryParse(anim, out value)) return value;
 			
 			return 0;
 		}

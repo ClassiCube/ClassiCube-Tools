@@ -46,7 +46,10 @@ namespace ModelPreviewer
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.btnModelTex = new System.Windows.Forms.ToolStripButton();
 			this.btnGridTex = new System.Windows.Forms.ToolStripButton();
-			this.btnShowGrid = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.btnXGrid = new System.Windows.Forms.ToolStripButton();
+			this.btnYGrid = new System.Windows.Forms.ToolStripButton();
+			this.btnZGrid = new System.Windows.Forms.ToolStripButton();
 			this.gbModel = new System.Windows.Forms.GroupBox();
 			this.numPitch = new System.Windows.Forms.NumericUpDown();
 			this.lblPitch = new System.Windows.Forms.Label();
@@ -272,7 +275,10 @@ namespace ModelPreviewer
 									this.toolStripSeparator1,
 									this.btnModelTex,
 									this.btnGridTex,
-									this.btnShowGrid});
+									this.toolStripSeparator2,
+									this.btnXGrid,
+									this.btnYGrid,
+									this.btnZGrid});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.Size = new System.Drawing.Size(982, 25);
@@ -325,18 +331,47 @@ namespace ModelPreviewer
 			this.btnGridTex.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.btnGridTex.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnGridTex.Name = "btnGridTex";
-			this.btnGridTex.Size = new System.Drawing.Size(69, 22);
-			this.btnGridTex.Text = "Grid texture";
+			this.btnGridTex.Size = new System.Drawing.Size(74, 22);
+			this.btnGridTex.Text = "Floor texture";
 			this.btnGridTex.Click += new System.EventHandler(this.BtnGridTexClick);
 			// 
-			// btnShowGrid
+			// toolStripSeparator2
 			// 
-			this.btnShowGrid.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.btnShowGrid.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.btnShowGrid.Name = "btnShowGrid";
-			this.btnShowGrid.Size = new System.Drawing.Size(79, 22);
-			this.btnShowGrid.Text = "Show gridlines";
-			this.btnShowGrid.Click += new System.EventHandler(this.BtnShowGridClick);
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+			// 
+			// btnXGrid
+			// 
+			this.btnXGrid.Checked = true;
+			this.btnXGrid.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.btnXGrid.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.btnXGrid.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnXGrid.Name = "btnXGrid";
+			this.btnXGrid.Size = new System.Drawing.Size(59, 22);
+			this.btnXGrid.Text = "X gridlines";
+			this.btnXGrid.Click += new System.EventHandler(this.BtnXGridClick);
+			// 
+			// btnYGrid
+			// 
+			this.btnYGrid.Checked = true;
+			this.btnYGrid.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.btnYGrid.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.btnYGrid.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnYGrid.Name = "btnYGrid";
+			this.btnYGrid.Size = new System.Drawing.Size(59, 22);
+			this.btnYGrid.Text = "Y gridlines";
+			this.btnYGrid.Click += new System.EventHandler(this.BtnYGridClick);
+			// 
+			// btnZGrid
+			// 
+			this.btnZGrid.Checked = true;
+			this.btnZGrid.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.btnZGrid.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.btnZGrid.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnZGrid.Name = "btnZGrid";
+			this.btnZGrid.Size = new System.Drawing.Size(59, 22);
+			this.btnZGrid.Text = "Z gridlines";
+			this.btnZGrid.Click += new System.EventHandler(this.BtnZGridClick);
 			// 
 			// gbModel
 			// 
@@ -877,6 +912,9 @@ namespace ModelPreviewer
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ToolStripButton btnZGrid;
+		private System.Windows.Forms.ToolStripButton btnYGrid;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.Label lblZAnim;
 		private System.Windows.Forms.TextBox txtZAnim;
 		private System.Windows.Forms.Label lblXAnim;
@@ -921,7 +959,7 @@ namespace ModelPreviewer
 		private System.Windows.Forms.ComboBox cbState;
 		private System.Windows.Forms.Label lblState;
 		private System.Windows.Forms.GroupBox gbModel;
-		private System.Windows.Forms.ToolStripButton btnShowGrid;
+		private System.Windows.Forms.ToolStripButton btnXGrid;
 		private System.Windows.Forms.ToolStripButton btnGridTex;
 		private System.Windows.Forms.ToolStripButton btnModelTex;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;

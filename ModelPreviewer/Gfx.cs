@@ -35,7 +35,7 @@ namespace ModelPreviewer {
 				}
 				
 				bmp.Dispose();
-				resampled = bmp;
+				bmp = resampled;
 			}
 			return bmp;
 		}
