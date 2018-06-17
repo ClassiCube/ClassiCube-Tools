@@ -55,7 +55,7 @@ namespace ModelPreviewer {
 			
 			for (int i = 0; i < RawParts.Count; i++) {
 				RawPart raw = RawParts[i];
-				Gfx.AlphaTest = raw.AlphaTesting;
+				Gfx.AlphaTest = raw.AlphaTest;
 				
 				if (raw.Wireframe) GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
 				DrawRotate(p, raw, parts[i]);

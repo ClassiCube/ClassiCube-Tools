@@ -5,10 +5,10 @@ using System.IO;
 namespace ModelPreviewer {
 	
 	public sealed class RawPart {
-		public string Name, XAnim, YAnim, ZAnim;
+		public string Name, XAnim = "", YAnim = "", ZAnim = "";
 		public int X1, Y1, Z1, X2, Y2, Z2;
 		public int RotX, RotY, RotZ, TexX, TexY;
-		public bool AlphaTesting, Rotated, Wireframe, AxisLines = true;
+		public bool AlphaTest, Rotated, Wireframe, AxisLines = true;
 	}
 	
 	public static class ModelFormat {
@@ -58,7 +58,7 @@ namespace ModelPreviewer {
 					string[] xy = Split(value);
 					part.TexX = int.Parse(xy[0]); part.TexY = int.Parse(xy[1]);
 				} else if (type == "alpha") {
-					part.AlphaTesting = bool.Parse(value);
+					part.AlphaTest = bool.Parse(value);
 				} else if (type == "rotated") {
 					part.Rotated = bool.Parse(value);
 				}
@@ -77,7 +77,7 @@ namespace ModelPreviewer {
 				w.WriteLine(i + " p2 " + p.X2 + " " + p.Y2 + " " + p.Z2);
 				w.WriteLine(i + " rot " + p.RotX + " " + p.RotY + " " + p.RotZ);
 				w.WriteLine(i + " tex " + p.TexX + " " + p.TexY);
-				w.WriteLine(i + " alpha " + p.AlphaTesting);
+				w.WriteLine(i + " alpha " + p.AlphaTest);
 				w.WriteLine(i + " rotated " + p.Rotated);
 				w.WriteLine();
 			}
@@ -85,7 +85,73 @@ namespace ModelPreviewer {
 		}
 		
 		public static void ExportCode(List<RawPart> parts, Stream stream) {
-			throw new NotImplementedException();
+			StreamWriter w = new StreamWriter(stream);
+			w.WriteLine("// Skeleton implementation exported from ModelPreviewer");
+			w.WriteLine("// You still need to implement rest of IModel yourself");
+			w.WriteLine("// I recommend you press Ctrl + I in your IDE to format this");
+			
+			w.WriteLine("using System;");
+			w.WriteLine("using ClassicalSharp");
+			w.WriteLine("using ClassicalSharp.Entities;");
+			w.WriteLine("using ClassicalSharp.Model;");
+			w.WriteLine("using ClassicalSharp.Physics;");
+			w.WriteLine("using OpenTK;");
+			
+			w.WriteLine();
+			w.WriteLine("namespace MyModels {");
+			w.WriteLine("\tpublic class MyModel : IModel {");
+			w.WriteLine();
+			w.WriteLine("\t\tpublic MyModel(Game window) : base(window) { }");
+			w.WriteLine();
+			
+			w.WriteLine("\t\tpublic override void CreateParts() {");
+			w.WriteLine("\t\t\tvertices = new ModelVertex[boxVertices * " + parts.Count + "];");
+			
+			foreach (RawPart part in parts) {
+				w.Write("\t\t\t" + part.Name + " = ");
+				if (part.Rotated) {
+					w.Write("BuildRotatedBox(MakeRotatedBoxBounds(");
+				} else {
+					w.Write("BuildBox(MakeBoxBounds(");
+				}
+				
+				w.Write(part.X1 + ", " + part.Y1 + ", " + part.Z1 + ", ");
+				w.Write(part.X2 + ", " + part.Y2 + ", " + part.Z2 + ")");
+				w.WriteLine();
+				
+				w.WriteLine(".TexOrigin(" + part.TexX + ", " + part.TexY + ")");
+				w.WriteLine(".RotOrigin(" + part.RotX + ", " + part.RotY + ", " + part.RotZ + "));");
+			}
+			w.WriteLine("\t\t}");
+			
+			w.WriteLine();
+			w.WriteLine("\t\tpublic override void DrawModel(Entity p) {");
+			w.WriteLine("\t\t\tgame.Graphics.BindTexture(GetTexture(p));");
+			w.WriteLine();
+			
+			bool alphaTest = true;
+			foreach (RawPart part in parts) {
+				if (part.AlphaTest != alphaTest) {
+					w.WriteLine("\t\t\tgame.Graphics.AlphaTest = " + (part.AlphaTest ? "true;" : "false;"));
+					alphaTest = part.AlphaTest;
+				}
+				
+				if (part.XAnim == "" && part.YAnim == "" && part.ZAnim == "") {
+					w.WriteLine("\t\t\tDrawPart(" + part.Name + ");");
+				} else {
+					w.WriteLine("\t\t\tDrawRotate(" + ModelAnim.Format(part.XAnim) + ", " 
+					            + ModelAnim.Format(part.YAnim) + ", " + ModelAnim.Format(part.ZAnim) + ", "
+					            + part.Name + ", " + (part.Name.ToLower() == "head" ? "true" : "false") + ")");
+				}
+			}
+			
+			w.WriteLine("\t\t\tUpdateVB()");
+			if (!alphaTest) w.WriteLine("\t\t\tgame.Graphics.AlphaTest = true;");
+			w.WriteLine("\t\t}");
+			
+			w.WriteLine("\t}");
+			w.WriteLine("}");
+			w.Flush();
 		}
 		
 		public const string HumanoidRaw = @"

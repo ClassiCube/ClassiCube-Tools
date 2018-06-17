@@ -307,7 +307,12 @@ namespace ModelPreviewer {
 		}
 		
 		void BtnExportCodeClick(object sender, EventArgs e) {
-			throw new NotImplementedException();
+			string path = DoSaveFileDialog("Accepted File Types (*.cs)|*.cs|C# source files (*.cs)|*.cs");
+			if (path == null) return;
+
+			using (FileStream fs = File.Create(path)) {
+				ModelFormat.ExportCode(parts, fs);
+			}
 		}
 		
 		void BtnModelTexClick(object sender, EventArgs e) {
@@ -404,7 +409,7 @@ namespace ModelPreviewer {
 		}
 		
 		void CbAlphaTestingCheckedChanged(object sender, EventArgs e) {
-			if (cur != null) cur.AlphaTesting = cbAlphaTesting.Checked;
+			if (cur != null) cur.AlphaTest = cbAlphaTesting.Checked;
 			RebuildModel();
 		}
 		
@@ -436,7 +441,7 @@ namespace ModelPreviewer {
 			txtZAnim.Text = p.ZAnim;
 			
 			cbWireframe.Checked = p.Wireframe;
-			cbAlphaTesting.Checked = p.AlphaTesting;
+			cbAlphaTesting.Checked = p.AlphaTest;
 			cbRotate.Checked = p.Rotated;
 			cbAxisLines.Checked = p.AxisLines;
 			
