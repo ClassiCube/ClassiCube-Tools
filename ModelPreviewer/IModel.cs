@@ -141,39 +141,35 @@ namespace ModelPreviewer {
 		}
 		
 		public static bool _64x64 = false;
-		protected void DrawPart( ModelPart part ) {
+		protected void DrawRotate(Player p, RawPart raw, ModelPart part) {
 			GL.Begin( BeginMode.Quads );
 			for( int i = 0; i < part.Count; i++ ) {
 				ModelVertex model = vertices[part.Offset + i];
-				Vector3 newPos = Utils.RotateY( model.X, model.Y, model.Z, cosA, sinA ) + pos;
-
-				float v = _64x64 ? 64f : 32f;
-				GL.TexCoord2( (float)model.U / 64f, (float)model.V / v );
-				GL.Vertex3( newPos );
+				Vector3 pos = RotatePoint(p, raw, new Vector3(model.X, model.Y, model.Z));
+				
+				float vScale = _64x64 ? 64f : 32f;
+				GL.TexCoord2( (float)model.U / 64f, (float)model.V / vScale );
+				GL.Vertex3( pos );
 			}
 			GL.End();
 		}
 		
-		protected void DrawRotate( float x, float y, float z, float angleX, float angleY, float angleZ, ModelPart part ) {
+		public Vector3 RotatePoint(Player p, RawPart raw, Vector3 pos) {
+			float angleX = ModelAnim.Animate(p, raw.XAnim);
+			float angleY = ModelAnim.Animate(p, raw.YAnim);
+			float angleZ = ModelAnim.Animate(p, raw.ZAnim);
+				
 			float cosX = (float)Math.Cos( -angleX ), sinX = (float)Math.Sin( -angleX );
 			float cosY = (float)Math.Cos( -angleY ), sinY = (float)Math.Sin( -angleY );
 			float cosZ = (float)Math.Cos( -angleZ ), sinZ = (float)Math.Sin( -angleZ );
-			float vScale = _64x64 ? 64f : 32f;
+			float x = raw.RotX / 16f, y = raw.RotY / 16f, z = raw.RotZ / 16f;
+
+			Vector3 loc = new Vector3( pos.X - x, pos.Y - y, pos.Z - z );
+			loc = Utils.RotateZ( loc.X, loc.Y, loc.Z, cosZ, sinZ );
+			loc = Utils.RotateY( loc.X, loc.Y, loc.Z, cosY, sinY );
+			loc = Utils.RotateX( loc.X, loc.Y, loc.Z, cosX, sinX );
 			
-			GL.Begin( BeginMode.Quads );
-			for( int i = 0; i < part.Count; i++ ) {
-				ModelVertex model = vertices[part.Offset + i];
-				Vector3 loc = new Vector3( model.X - x, model.Y - y, model.Z - z );
-				loc = Utils.RotateZ( loc.X, loc.Y, loc.Z, cosZ, sinZ );
-				loc = Utils.RotateY( loc.X, loc.Y, loc.Z, cosY, sinY );
-				loc = Utils.RotateX( loc.X, loc.Y, loc.Z, cosX, sinX );
-				
-				float v = _64x64 ? 64f : 32f;
-				Vector3 newPos = Utils.RotateY( loc.X + x, loc.Y + y, loc.Z + z, cosA, sinA ) + pos;
-				GL.TexCoord2( (float)model.U / 64f, (float)model.V / v );
-				GL.Vertex3( newPos );
-			}
-			GL.End();
+			return Utils.RotateY( loc.X + x, loc.Y + y, loc.Z + z, cosA, sinA ) + this.pos;
 		}
 		
 		[StructLayout( LayoutKind.Sequential, Pack = 1 )]

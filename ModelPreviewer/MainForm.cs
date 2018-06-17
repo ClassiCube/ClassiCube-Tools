@@ -5,6 +5,8 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using OpenTK;
+using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
 namespace ModelPreviewer {
@@ -92,13 +94,38 @@ namespace ModelPreviewer {
 				GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 				GL.MatrixMode(MatrixMode.Modelview);
 				camera.UpdateView();
-				PaintBackground();
+				
+				PaintFloor();
+				PaintGridLines();
+				PaintAxisLines();
 				
 				GL.Enable(EnableCap.DepthTest);
 				GL.Enable(EnableCap.AlphaTest);
 				
-				if (p.Model != null)
+				if (p.Model != null) {
 					p.Render(delta, (float)(ticksAccumulator / ticksPeriod));
+				}
+				
+				if (cur != null && cur.AxisLines) {
+					Gfx.Texturing = false;
+					Vector3 b = new Vector3(cur.RotX / 16.0f, cur.RotY / 16.0f, cur.RotZ / 16.0f);
+					
+					Vector3 x = p.Model.RotatePoint(p, cur, b + new Vector3(1, 0, 0));
+					Vector3 y = p.Model.RotatePoint(p, cur, b + new Vector3(0, 1, 0));
+					Vector3 z = p.Model.RotatePoint(p, cur, b + new Vector3(0, 0, -1));
+					
+					b = p.Model.RotatePoint(p, cur, b);				
+					GL.LineWidth(3f);
+					GL.Begin(BeginMode.Lines);
+					
+					GL.Color3(1f, 0f, 0f); GL.Vertex3(b); GL.Vertex3(x);
+					GL.Color3(0f, 1f, 0f); GL.Vertex3(b); GL.Vertex3(y);					
+					GL.Color3(0f, 0f, 1f); GL.Vertex3(b); GL.Vertex3(z);
+					
+					GL.End();
+					GL.LineWidth(1f);
+					GL.Color3(1f, 1f, 1f);
+				}
 				renderer.SwapBuffers();
 			} catch (Exception ex) {
 				Program.ShowError(ex);
@@ -109,15 +136,15 @@ namespace ModelPreviewer {
 		void PaintFloor() {
 			Gfx.Texturing = true;
 			Gfx.BindTexture(floorTexId);
-			GL.Begin(BeginMode.Quads);			
+			GL.Begin(BeginMode.Quads);
 			GL.Color3(0.7f, 0.7f, 0.7f);
 			
-			GL.TexCoord2(0f, 0f); GL.Vertex3(-2f, -0.1f, -2f);		
+			GL.TexCoord2(0f, 0f); GL.Vertex3(-2f, -0.1f, -2f);
 			GL.TexCoord2(2f, 0f); GL.Vertex3(2f, -0.1f, -2f);
 			GL.TexCoord2(2f, 2f); GL.Vertex3(2f, -0.1f, 2f);
 			GL.TexCoord2(0f, 2f); GL.Vertex3(-2f, -0.1f, 2f);
 			
-			GL.Color3(1f, 1f, 1f);		
+			GL.Color3(1f, 1f, 1f);
 			GL.End();
 			Gfx.Texturing = false;
 		}
@@ -155,11 +182,7 @@ namespace ModelPreviewer {
 			GL.End();
 		}
 		
-		void PaintBackground() {
-			Gfx.Texturing = false;
-			PaintFloor();
-			PaintGridLines();
-			
+		void PaintAxisLines() {
 			GL.Begin(BeginMode.Lines);
 			Line(1, 0, 0);
 			Line(0, 1, 0);
@@ -390,6 +413,11 @@ namespace ModelPreviewer {
 			RebuildModel();
 		}
 		
+		void CbAxisLinesCheckedChanged(object sender, System.EventArgs e) {
+			if (cur != null) cur.AxisLines = cbAxisLines.Checked;
+			RebuildModel();
+		}
+		
 		
 		void LbModelsSelectedIndexChanged(object sender, System.EventArgs e) {
 			cur = null;
@@ -410,6 +438,7 @@ namespace ModelPreviewer {
 			cbWireframe.Checked = p.Wireframe;
 			cbAlphaTesting.Checked = p.AlphaTesting;
 			cbRotate.Checked = p.Rotated;
+			cbAxisLines.Checked = p.AxisLines;
 			
 			cur = p;
 		}

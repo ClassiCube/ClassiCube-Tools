@@ -58,6 +58,7 @@ namespace ModelPreviewer
 			this.lblState = new System.Windows.Forms.Label();
 			this.cbState = new System.Windows.Forms.ComboBox();
 			this.gbPart = new System.Windows.Forms.GroupBox();
+			this.cbAxisLines = new System.Windows.Forms.CheckBox();
 			this.txtZAnim = new System.Windows.Forms.TextBox();
 			this.lblZAnim = new System.Windows.Forms.Label();
 			this.txtYAnim = new System.Windows.Forms.TextBox();
@@ -469,6 +470,7 @@ namespace ModelPreviewer
 			// 
 			// gbPart
 			// 
+			this.gbPart.Controls.Add(this.cbAxisLines);
 			this.gbPart.Controls.Add(this.txtZAnim);
 			this.gbPart.Controls.Add(this.lblZAnim);
 			this.gbPart.Controls.Add(this.txtYAnim);
@@ -501,6 +503,16 @@ namespace ModelPreviewer
 			this.gbPart.TabIndex = 12;
 			this.gbPart.TabStop = false;
 			this.gbPart.Text = "Model part data";
+			// 
+			// cbAxisLines
+			// 
+			this.cbAxisLines.Location = new System.Drawing.Point(8, 321);
+			this.cbAxisLines.Name = "cbAxisLines";
+			this.cbAxisLines.Size = new System.Drawing.Size(175, 24);
+			this.cbAxisLines.TabIndex = 39;
+			this.cbAxisLines.Text = "Axis lines";
+			this.cbAxisLines.UseVisualStyleBackColor = true;
+			this.cbAxisLines.CheckedChanged += new System.EventHandler(this.CbAxisLinesCheckedChanged);
 			// 
 			// txtZAnim
 			// 
@@ -912,6 +924,7 @@ namespace ModelPreviewer
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.CheckBox cbAxisLines;
 		private System.Windows.Forms.ToolStripButton btnZGrid;
 		private System.Windows.Forms.ToolStripButton btnYGrid;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;

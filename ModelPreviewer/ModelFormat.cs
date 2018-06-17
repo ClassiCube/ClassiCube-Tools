@@ -8,7 +8,7 @@ namespace ModelPreviewer {
 		public string Name, XAnim, YAnim, ZAnim;
 		public int X1, Y1, Z1, X2, Y2, Z2;
 		public int RotX, RotY, RotZ, TexX, TexY;
-		public bool AlphaTesting, Rotated, Wireframe;
+		public bool AlphaTesting, Rotated, Wireframe, AxisLines = true;
 	}
 	
 	public static class ModelFormat {
