@@ -79,6 +79,9 @@ namespace ModelPreviewer {
 				w.WriteLine(i + " tex " + p.TexX + " " + p.TexY);
 				w.WriteLine(i + " alpha " + p.AlphaTest);
 				w.WriteLine(i + " rotated " + p.Rotated);
+				if (p.XAnim != "") w.WriteLine(i + " xanim " + p.XAnim);
+				if (p.YAnim != "") w.WriteLine(i + " yanim " + p.YAnim);
+				if (p.ZAnim != "") w.WriteLine(i + " zanim " + p.ZAnim);
 				w.WriteLine();
 			}
 			w.Close();
