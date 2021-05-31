@@ -74,7 +74,7 @@ namespace PluginChecker {
 			
 			byte[] data = body.GetILAsByteArray();
 			List<Instruction> all = InstructionProcessor.GetAll(data);
-			
+
 			foreach (Instruction ins in all) {
 				if (ins.UsesMethod) ResolveMethod(lib, method, ins);
 				if (ins.UsesField) ResolveField(lib, method, ins);
@@ -94,6 +94,7 @@ namespace PluginChecker {
 		
 		void CheckFile(string path) {
 			Assembly lib = LoadFrom(path);
+			Instruction.Ignored.Add(lib); // list of assemblies to ignore for resolving
 			Type[] types = lib.GetTypes();
 			
 			foreach (Type type in types) {

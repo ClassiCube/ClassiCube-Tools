@@ -13,31 +13,46 @@ namespace PluginChecker {
 		public bool UsesField  { get { return Opcode.OperandType == OperandType.InlineField; } }
 		public bool UsesType   { get { return Opcode.OperandType == OperandType.InlineType; } }
 		
+		public override string ToString() {
+			return Opcode.Name + " - " + Operand;
+		}
+		
+		
+		// don't try to resolve references from other plugin assemblies
+		public static List<Assembly> Ignored = new List<Assembly>();
+		
+		static T Resolve<T>(Assembly lib, Func<Module, T> resolve) {
+			// try with this plugin assembly first
+			{
+				foreach (Module m in lib.GetModules()) {
+					try { return resolve(m); } catch { }
+				}
+			}
+			
+			// try again with ALL assemblies
+			foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies()) {
+				if (Ignored.Contains(a)) continue;
+				
+				foreach (Module m in a.GetModules()) {
+					try { return resolve(m); } catch { }
+				}
+			}
+			return default(T);
+		}
+		
 		public MethodBase ResolveMethod(Assembly lib) {
 			int token = (int)Operand;
-			
-			foreach (Module m in lib.GetModules()) {
-				try { return m.ResolveMethod(token); } catch { }
-			}
-			return null;
+			return Resolve(lib, m => m.ResolveMethod(token));
 		}
-			
+		
 		public FieldInfo ResolveField(Assembly lib) {
 			int token = (int)Operand;
-			
-			foreach (Module m in lib.GetModules()) {
-				try { return m.ResolveField(token); } catch { }
-			}
-			return null;
+			return Resolve(lib, m => m.ResolveField(token));
 		}
 		
 		public Type ResolveType(Assembly lib) {
 			int token = (int)Operand;
-			
-			foreach (Module m in lib.GetModules()) {
-				try { return m.ResolveType(token); } catch { }
-			}
-			return null;
+			return Resolve(lib, m => m.ResolveType(token));
 		}
 	}
 	
@@ -59,7 +74,7 @@ namespace PluginChecker {
 				} else if (opcode.Size == 2) {
 					// second byte is 0xFE
 					extCodes[opcode.Value & 0xFF] = opcode;
-				}				
+				}
 			}
 		}
 		
@@ -71,7 +86,7 @@ namespace PluginChecker {
 			}
 			return ins;
 		}
-	
+		
 		public static Instruction Next(byte[] data, ref int offset) {
 			byte id = data[offset++];
 			OpCode opcode;
@@ -150,8 +165,8 @@ namespace PluginChecker {
 		}
 		
 		static int ReadInt32(byte[] data, ref int offset) {
-			return data[offset++]         | (data[offset++] <<  8) | 
-				   (data[offset++] << 16) | (data[offset++] << 24);
+			return data[offset++]         | (data[offset++] <<  8) |
+				(data[offset++] << 16) | (data[offset++] << 24);
 		}
 		
 		static long ReadInt64(byte[] data, ref int offset) {
