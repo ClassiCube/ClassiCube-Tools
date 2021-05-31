@@ -27,14 +27,23 @@ namespace PluginChecker {
 			//return Assembly.ReflectionOnlyLoadFrom(path);
 		}
 		
-		Assembly ResolveAssembly(object sender, ResolveEventArgs args)
-		{
+		List<string> seenAssemblies = new List<string>();
+		Assembly ResolveAssembly(object sender, ResolveEventArgs args) {
 			AssemblyName name = new AssemblyName(args.Name);
 			string path       = Path.Combine(root, name.Name + ".dll");
 			
-			if (!File.Exists(path)) return Assembly.Load(args.Name);
-			return LoadFrom(path);
+			// first try to load from MCGalaxy folder
+			if (File.Exists(path)) return LoadFrom(path);
+			
+			// have we already tried loading this assembly but failed to do so?
+			if (seenAssemblies.Contains(args.Name)) return null;
+			seenAssemblies.Add(args.Name);
+			
+			// use normal assembly loading method - note that this can mean
+			//  ResolveAssembly is called again
+			return Assembly.Load(args.Name);
 		}
+		
 		const BindingFlags all = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
 
 		
