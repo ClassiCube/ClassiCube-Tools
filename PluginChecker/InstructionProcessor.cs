@@ -8,6 +8,7 @@ namespace PluginChecker {
 	public sealed class Instruction {
 		public OpCode Opcode;
 		public object Operand;
+		public int Offset;
 		
 		public bool UsesMethod { get { return Opcode.OperandType == OperandType.InlineMethod; } }
 		public bool UsesField  { get { return Opcode.OperandType == OperandType.InlineField; } }
@@ -88,6 +89,7 @@ namespace PluginChecker {
 		}
 		
 		public static Instruction Next(byte[] data, ref int offset) {
+			int beg = offset;
 			byte id = data[offset++];
 			OpCode opcode;
 			
@@ -101,8 +103,9 @@ namespace PluginChecker {
 			
 			Instruction ins = new Instruction();
 			ins.Opcode  = opcode;
-			ins.Operand = ReadOperand(opcode.OperandType, data, ref offset);
-			return ins;
+            ins.Operand = ReadOperand(opcode.OperandType, data, ref offset);
+			ins.Offset  = beg;
+            return ins;
 		}
 
 		static object ReadOperand(OperandType type, byte[] data, ref int offset) {

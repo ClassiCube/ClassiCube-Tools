@@ -47,25 +47,29 @@ namespace PluginChecker {
 		const BindingFlags all = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
 
 		
-		void LogFailure(MethodInfo method, string action) {
-			Console.WriteLine("CAN'T RESOLVE '{0}' in {1}.{2} ({3})",
+		void LogFailure(MethodInfo method, string action, Instruction ins) {
+			string file = method.DeclaringType.Assembly.GetName().Name + ".dll";
+
+			Console.ForegroundColor = ConsoleColor.Yellow;
+			Console.WriteLine("CAN'T RESOLVE '{0}' in {1}.{2} [IL_{3}] ({4})",
 			                  action, method.DeclaringType.Name, method.Name, 
-			                  method.DeclaringType.Assembly.GetName().Name + ".dll");
+							  ins.Offset.ToString("x4"), file);
+			Console.ResetColor();
 		}
 		
 		void ResolveMethod(Assembly lib, MethodInfo method, Instruction ins) {
 			MethodBase value = ins.ResolveMethod(lib);
-			if (value == null) LogFailure(method, "method");
+			if (value == null) LogFailure(method, "method", ins);
 		}
 		
 		void ResolveField(Assembly lib, MethodInfo method, Instruction ins) {
 			FieldInfo value = ins.ResolveField(lib);
-			if (value == null) LogFailure(method, "field");
+			if (value == null) LogFailure(method, "field", ins);
 		}
 		
 		void ResolveType(Assembly lib, MethodInfo method, Instruction ins) {
 			Type value = ins.ResolveType(lib);
-			if (value == null) LogFailure(method, "type");
+			if (value == null) LogFailure(method, "type", ins);
 		}
 		
 		void CheckMethod(Assembly lib, MethodInfo method) {
@@ -78,8 +82,8 @@ namespace PluginChecker {
 			foreach (Instruction ins in all) 
 			{
 				if (ins.UsesMethod) ResolveMethod(lib, method, ins);
-				if (ins.UsesField) ResolveField(lib, method, ins);
-				if (ins.UsesType) ResolveType(lib, method, ins);
+				if (ins.UsesField)  ResolveField(lib,  method, ins);
+				if (ins.UsesType)   ResolveType(lib,   method, ins);
 			}
 		}
 		
