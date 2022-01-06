@@ -75,7 +75,8 @@ namespace PluginChecker {
 			byte[] data = body.GetILAsByteArray();
 			List<Instruction> all = InstructionProcessor.GetAll(data);
 
-			foreach (Instruction ins in all) {
+			foreach (Instruction ins in all) 
+			{
 				if (ins.UsesMethod) ResolveMethod(lib, method, ins);
 				if (ins.UsesField) ResolveField(lib, method, ins);
 				if (ins.UsesType) ResolveType(lib, method, ins);
@@ -84,7 +85,8 @@ namespace PluginChecker {
 		
 		void CheckType(Assembly lib, Type type) {
 			MethodInfo[] methods = type.GetMethods(all);
-			foreach (MethodInfo method in methods) {
+			foreach (MethodInfo method in methods) 
+			{
 				// only inspect methods in this assembly
 				if (method.DeclaringType.Assembly != lib) continue;
 				
@@ -97,7 +99,8 @@ namespace PluginChecker {
 			Instruction.Ignored.Add(lib); // list of assemblies to ignore for resolving
 			Type[] types = lib.GetTypes();
 			
-			foreach (Type type in types) {
+			foreach (Type type in types) 
+			{
 				CheckType(lib, type);
 			}
 		}
@@ -105,7 +108,29 @@ namespace PluginChecker {
 		public void CheckDirectory(string directory) {
 			directory = Path.Combine(root, directory);
 			string[] files = Directory.GetFiles(directory, "*.dll");
-			foreach (string file in files) CheckFile(file);
+
+			foreach (string file in files)
+			{
+				try {
+					CheckFile(file);
+				} catch (Exception ex) {
+					LogErrors(ex, file);
+				}
+			}
+		}
+		static void LogErrors(Exception ex, string file) {
+			Console.ForegroundColor = ConsoleColor.Red;
+			Console.WriteLine("### ERROR INSPECTING " + file);
+			Console.ResetColor();
+
+			Console.WriteLine(ex);
+			ReflectionTypeLoadException refEx = ex as ReflectionTypeLoadException;
+			if (refEx == null) return;
+
+			foreach (Exception ex2 in refEx.LoaderExceptions)
+			{
+				Console.WriteLine(ex2);
+			};
 		}
 	}
 }

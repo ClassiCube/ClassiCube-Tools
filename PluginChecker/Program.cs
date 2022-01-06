@@ -1,20 +1,9 @@
 ﻿using System;
-using System.Reflection;
 
-namespace PluginChecker {
-	class Program {
-		static void LoadErrors(Exception ex) {
-			Console.WriteLine(ex);
-			
-			ReflectionTypeLoadException refEx = ex as ReflectionTypeLoadException;
-			if (refEx == null) return;
-			
-			foreach (Exception ex2 in refEx.LoaderExceptions) {
-				Console.WriteLine(ex2);
-			}
-			Console.ReadLine();
-		}
-		
+namespace PluginChecker 
+{
+	class Program 
+	{
 		public static void Main(string[] args)
 		{
 			Console.WriteLine("Hello World!");
