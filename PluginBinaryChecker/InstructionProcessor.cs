@@ -46,9 +46,9 @@ namespace PluginChecker {
 			return Resolve(lib, m => m.ResolveMethod(token));
 		}
 		
-		public FieldInfo ResolveField(Assembly lib, Type[] T) {
+		public FieldInfo ResolveField(Assembly lib) {
 			int token = (int)Operand;
-			return Resolve(lib, m => m.ResolveField(token, T, null));
+			return Resolve(lib, m => m.ResolveField(token));
 		}
 		
 		public Type ResolveType(Assembly lib) {
