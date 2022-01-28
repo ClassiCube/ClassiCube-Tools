@@ -9,12 +9,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PluginChecker")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("PluginBinaryChecker")]
+[assembly: AssemblyDescription("Checks MCGalaxy .dll commands/plugins for potential runtime issues")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("PluginChecker")]
-[assembly: AssemblyCopyright("Copyright 2021")]
+[assembly: AssemblyProduct("PluginBinaryChecker")]
+[assembly: AssemblyCopyright("Copyright 2021 - 2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 # SharpDevelop 4.4
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginChecker", "PluginChecker.csproj", "{484F466E-60C5-4104-803B-D8C19D27740A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginBinaryChecker", "PluginBinaryChecker.csproj", "{484F466E-60C5-4104-803B-D8C19D27740A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
