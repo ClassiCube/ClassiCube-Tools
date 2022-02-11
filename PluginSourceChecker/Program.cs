@@ -27,8 +27,13 @@ namespace PluginChecker
 			cs_compiler = ICompiler.Compilers.Find(c => c.ShortName == "CS");
 			log_player  = new LogPlayer();
 
-			CheckDirectory(root, "plugins", "plugin");
-			CheckDirectory(root, "extra/commands/source", "command");
+			if (root.StartsWith("@")) {
+				// @[path] is specially treated as compiling all files in given directory
+				CheckDirectory(root.Substring(1), "", "plugin");
+			} else {
+				CheckDirectory(root, "plugins", "plugin");
+				CheckDirectory(root, "extra/commands/source", "command");
+			}
 
 			Console.WriteLine("Compiled {0} source files ({1} failures)", compiled, failed);
 			// MCGalaxy's Scheduler threads prevent this application from closing
